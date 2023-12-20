@@ -14,6 +14,11 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+      // Transforms the request body to the DTO class. Example: http://localhost:4000/api/...?name=...
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(4000);
