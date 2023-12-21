@@ -8,6 +8,7 @@ import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
 import { PokeResponse } from './interfaces/poke-response.interface';
 import { CreatePokemonDto } from 'src/pokemon/dto/create-pokemon.dto';
 import { FetchAdapter } from 'src/common/adapters/fetch.adapter';
+import { CreateSeedDto } from './dto/create-seed.dto';
 
 @Injectable()
 export class SeedService {
@@ -18,10 +19,10 @@ export class SeedService {
 
     private readonly http: FetchAdapter,
   ) {}
-  async seedDB() {
+  async seedDB(createSeedDto: CreateSeedDto) {
     await this.pokemonModel.deleteMany({});
     const data = await this.http.get<PokeResponse>(
-      'https://pokeapi.co/api/v2/pokemon?limit=29',
+      `https://pokeapi.co/api/v2/pokemon?limit=${createSeedDto.amount}`,
     );
     const { results } = data;
 

@@ -20,11 +20,7 @@ To run the MongoDB as a docker container
 $ docker-compose up -d
 ```
 
-To seed the MongoDB with data use:
-
-```bash
-$ curl http://localhost:4000/api/pokemon
-```
+Clone the **.env.template**, rename it to **.env** and UPDATE THE VARIABLES!
 
 To execute the nestjs app
 
@@ -37,4 +33,10 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+
+To seed the MongoDB with data use:
+
+```bash
+$ curl http://localhost:4000/api/pokemon
 ```
