@@ -26,17 +26,24 @@ To execute the nestjs app
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
 $ npm run start:dev
 
 # production mode
-$ npm run start:prod
+$ npm run start
 ```
 
 To seed the MongoDB with data use:
 
 ```bash
 $ curl http://localhost:4000/api/pokemon
+```
+
+# Production Build
+
+1. Create file `.env.prod`
+2. Fill all production environment variables, use **.env.template** structure
+3. Create the new image
+
+```
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
 ```

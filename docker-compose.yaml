@@ -9,7 +9,7 @@ services:
     ports:
       - 27018:27017
     environment:
-      # MONGO_INITDB_DATABASE: pokedex
+      # MONGO_INITDB_DATABASE: pokemons
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example123
     volumes:
