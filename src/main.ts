@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   // Adds a global prefix to all routes. Example: http://localhost:4000/api/...
   app.setGlobalPrefix('api');
   // Enables validation of DTOs. Example: http://localhost:4000/api/...?name=...
