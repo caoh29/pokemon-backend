@@ -9,6 +9,7 @@ import { PokeResponse } from './interfaces/poke-response.interface';
 import { CreatePokemonDto } from 'src/pokemon/dto/create-pokemon.dto';
 import { FetchAdapter } from 'src/common/adapters/fetch.adapter';
 import { CreateSeedDto } from './dto/create-seed.dto';
+import { PokeResponseByPokemon } from './interfaces/poke-response-byPokemon.interface';
 
 @Injectable()
 export class SeedService {
@@ -21,11 +22,9 @@ export class SeedService {
   ) {}
   async seedDB(createSeedDto: CreateSeedDto) {
     await this.pokemonModel.deleteMany({});
-    const data = await this.http.get<PokeResponse>(
+    const { results } = await this.http.get<PokeResponse>(
       `https://pokeapi.co/api/v2/pokemon?limit=${createSeedDto.amount}`,
     );
-    const { results } = data;
-
     // await Promise.all(
     //   results.map(async ({ name, url }) => {
     //     const segments = url.split('/');
@@ -35,11 +34,19 @@ export class SeedService {
     //   }),
     // );
 
-    const pokemons: CreatePokemonDto[] = results.map(({ name, url }) => {
+    const pokemons: CreatePokemonDto[] = [];
+    for (const { name, url } of results) {
+      const { sprites } = await this.http.get<PokeResponseByPokemon>(url);
       const segments = url.split('/');
       const number = +segments[segments.length - 2];
-      return { name, number };
-    });
+      pokemons.push({ name, number, sprites });
+    }
+
+    // const pokemons: CreatePokemonDto[] = results.map(async ({ name, url }) => {
+    //   const segments = url.split('/');
+    //   const number = +segments[segments.length - 2];
+    //   return { name, number, sprites };
+    // });
 
     await this.pokemonModel.insertMany(pokemons);
 

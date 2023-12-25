@@ -1,4 +1,12 @@
-import { IsInt, IsPositive, IsString, Min, MinLength } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
+import { Sprites } from 'src/seed/interfaces/poke-response-byPokemon.interface';
 
 export class CreatePokemonDto {
   @IsString()
@@ -9,4 +17,7 @@ export class CreatePokemonDto {
   @IsPositive()
   @Min(1)
   readonly number: number;
+
+  @IsOptional()
+  readonly sprites?: Sprites;
 }

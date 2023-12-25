@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Sprites } from 'src/seed/interfaces/poke-response-byPokemon.interface';
 
 @Schema()
 export class Pokemon extends Document {
@@ -15,6 +16,11 @@ export class Pokemon extends Document {
     index: true,
   })
   number: number;
+
+  @Prop({
+    type: Object,
+  })
+  sprites: Sprites;
 }
 
 export const PokemonSchema = SchemaFactory.createForClass(Pokemon);

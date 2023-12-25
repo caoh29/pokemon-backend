@@ -13,6 +13,8 @@ import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entities/pokemon.entity';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PokeResponseByPokemon } from 'src/seed/interfaces/poke-response-byPokemon.interface';
+import { FetchAdapter } from 'src/common/adapters/fetch.adapter';
 
 @Injectable()
 export class PokemonService {
@@ -20,14 +22,22 @@ export class PokemonService {
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
 
+    private readonly http: FetchAdapter,
+
     //private readonly configService: ConfigService,
   ) {}
   async create(createPokemonDto: CreatePokemonDto) {
     try {
+      const { sprites } = await this.http.get<PokeResponseByPokemon>(
+        String(createPokemonDto.number),
+      );
+
       const pokemon: Pokemon = await this.pokemonModel.create({
         name: createPokemonDto.name.toLowerCase(),
         number: createPokemonDto.number,
+        sprites,
       });
+
       return pokemon;
     } catch (error) {
       this.handleExceptions(error);
@@ -81,6 +91,7 @@ export class PokemonService {
           _id: pokemon._id,
           name,
           number: updatePokemonDto.number,
+          sprites: pokemon.sprites,
           __v: pokemon.__v,
         };
       } catch (error) {
@@ -94,6 +105,7 @@ export class PokemonService {
           _id: pokemon._id,
           name,
           number: pokemon.number,
+          sprites: pokemon.sprites,
           __v: pokemon.__v,
         };
       } catch (error) {
@@ -108,6 +120,7 @@ export class PokemonService {
           _id: pokemon._id,
           name: pokemon.name,
           number: updatePokemonDto.number,
+          sprites: pokemon.sprites,
           __v: pokemon.__v,
         };
       } catch (error) {
