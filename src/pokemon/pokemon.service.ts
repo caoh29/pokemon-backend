@@ -29,7 +29,7 @@ export class PokemonService {
   async create(createPokemonDto: CreatePokemonDto) {
     try {
       const { sprites } = await this.http.get<PokeResponseByPokemon>(
-        String(createPokemonDto.number),
+        `https://pokeapi.co/api/v2/pokemon/${createPokemonDto.name.toLowerCase()}`,
       );
 
       const pokemon: Pokemon = await this.pokemonModel.create({
